@@ -1,0 +1,1182 @@
+= Back-end API Document
+Jonghyun Yoon;
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 3
+:sectlinks:
+
+[[Overview]]
+== Overview
+Back-end API 문서입니다.
+
+[[Index]]
+== Index
+== LoginController
+=== Log in
+로그인 요청 API 입니다.
+
+HTTP request:
+
+include::{snippets}/LoginController/login-test/1/http-request.adoc[]
+.Login Form parameters
+|===
+|Parameter |Description
+
+|loginId
+|User ID
+
+|loginPw
+|User Password
+|===
+
+HTTP response:
+사용자 정보를 리턴합니다.
+include::{snippets}/LoginController/login-test/1/http-response.adoc[]
+
+=== Log out
+로그아웃 API 입니다.
+
+HTTP request:
+
+include::{snippets}/LoginController/logout-test/1/http-request.adoc[]
+
+HTTP response:
+
+include::{snippets}/LoginController/logout-test/1/http-response.adoc[]
+
+== MailController
+=== Simple mail
+단순 텍스트 메일 발송 API 입니다.
+
+HTTP request:
+
+include::{snippets}/MailController/send-email-test/1/http-request.adoc[]
+.Simple Mail Send parameters
+|===
+|Parameter |Description
+
+|from
+|메일 발신자 mail address
+
+|to
+|메일 수신자 mail address
+
+|subject
+|Mail Title
+
+|text
+|메일 내용
+|===
+
+HTTP response:
+
+include::{snippets}/MailController/send-email-test/1/http-response.adoc[]
+
+
+== RoleController
+=== Get UserRole list
+전체 UserRole 리스트를 가져오는 API 입니다.
+
+HTTP request:
+
+include::{snippets}/RoleController/get-all-test/1/http-request.adoc[]
+
+HTTP response:
+
+include::{snippets}/RoleController/get-all-test/1/http-response.adoc[]
+
+=== Get role by UserRoleKey
+UserRoleKey로 해당하는 데이터를 조회합니다. (UserRole의 id, compCd 컬럼 조합)
+
+HTTP request:
+include::{snippets}/RoleController/get-role-by-id-test/1/http-request.adoc[]
+.UserRoleKey parameters
+|===
+|Parameter |Description
+
+|id
+|UserRole 데이터의 id 값
+
+|compCd
+|회사코드
+|===
+
+HTTP response:
+
+include::{snippets}/RoleController/get-role-by-id-test/1/http-response.adoc[]
+
+=== Get role by Login Id
+로그인한 사용 사번으로 UserRole 조회합니다.
+
+파라미터는 URI 경로에 포함합니다.(path variable)
+
+예시) .../login-id/{사번}
+
+HTTP request:
+include::{snippets}/RoleController/get-role-by-login-id-test/1/http-request.adoc[]
+
+HTTP response:
+
+include::{snippets}/RoleController/get-role-by-login-id-test/1/http-response.adoc[]
+
+=== Get roles By Role Name
+권한명으로 UserRole을 조회합니다.
+
+파라미터는 URI 경로에 포함합니다.(path variable)
+
+예시) .../by-role/{권한명}
+
+HTTP request:
+include::{snippets}/RoleController/get-role-test/1/http-request.adoc[]
+
+HTTP response:
+
+include::{snippets}/RoleController/get-role-test/1/http-response.adoc[]
+
+=== Get roles by User Name Contain
+사용자 이름으로 UserRole을 조회합니다.
+
+파라미터는 URI 경로에 포함합니다.(path variable) - 한글의 경우 인코딩됩니다.
+
+예시) .../user-name/유재석
+
+HTTP request:
+include::{snippets}/RoleController/get-roles-by-user-name-test/1/http-request.adoc[]
+
+HTTP response:
+
+include::{snippets}/RoleController/get-roles-by-user-name-test/1/http-response.adoc[]
+
+=== Delete role by UserRoleKey
+UserRoleKey로 해당 데이터를 삭제합니다.
+
+HTTP request:
+include::{snippets}/RoleController/delete-role-by-id-test/1/http-request.adoc[]
+.Delete UserRole parameters
+|===
+|Parameter |Description
+
+|id
+|UserRole 데이터의 id 값
+
+|compCd
+|회사코드
+|===
+
+And one showing the HTTP response:
+
+include::{snippets}/RoleController/delete-role-by-id-test/1/http-response.adoc[]
+
+
+== UserController
+=== Get All users
+전체 사용자 리스트를 조회합니다.
+
+HTTP request:
+include::{snippets}/UserController/get-users-test/1/http-request.adoc[]
+
+HTTP response:
+
+include::{snippets}/UserController/get-users-test/1/http-response.adoc[]
+
+=== Get user by id
+사용자 데이터의 id 컬럼으로 사용자 데이터를 조회합니다.
+
+파라미터는 URI 경로에 포함합니다.(path variable)
+
+예시) .../id/{id 값}
+
+HTTP request:
+include::{snippets}/UserController/get-user-by-id-test/1/http-request.adoc[]
+
+HTTP response:
+
+include::{snippets}/UserController/get-user-by-id-test/1/http-response.adoc[]
+
+=== Get user by Login Id
+현재 로그인 아이디로 사용자 데이터를 조회합니다.
+
+파라미터는 URI 경로에 포함합니다.(path variable)
+
+예시) .../login-id/{로그인 아이디}
+
+HTTP request:
+include::{snippets}/UserController/get-user-by-login-id-test/1/http-request.adoc[]
+
+HTTP response:
+
+include::{snippets}/UserController/get-user-by-login-id-test/1/http-response.adoc[]
+
+=== Add User
+신규 사용자를 추가합니다.
+
+HTTP request:
+include::{snippets}/UserController/add-user-test/1/http-request.adoc[]
+
+.Add User - required datas (User Info)
+|===
+|key |Description
+
+|loginId
+|로그인 아이디
+
+|loginPw
+|로그인 패스워드
+
+|userName
+|로그인 사용자 이름
+
+|enableFlag
+|사용유무 (true / false)
+
+|role
+|권한명
+
+|compCd
+|회사 코드
+
+|deptCd
+|부서 코드
+|===
+
+HTTP response:
+
+include::{snippets}/UserController/add-user-test/1/http-response.adoc[]
+
+=== Delete by Login Id
+로그인 아이디로 사용자 데이터를 삭제합니다.
+
+파라미터는 URI 경로에 포함합니다.(path variable)
+
+예시) .../{로그인 아이디}
+
+HTTP request:
+include::{snippets}/UserController/delete-user-test/1/http-request.adoc[]
+
+HTTP response:
+
+include::{snippets}/UserController/delete-user-test/1/http-response.adoc[]
+
+=== Update user data
+전달받은 사용자 데이터의 로그인 아이디로 수정된 항목(로그인 패스워드, 사용자 이름, 사용유무, 권한)을 수정합니다.
+
+HTTP request:
+include::{snippets}/UserController/update-user-test/1/http-request.adoc[]
+.Update User - required datas (User Info)
+|===
+|key |Description
+
+|loginId
+|로그인 아이디
+
+|loginPw
+|로그인 패스워드
+
+|userName
+|로그인 사용자 이름
+
+|enableFlag
+|사용유무 (true / false)
+
+|role
+|권한명
+
+|===
+
+HTTP response:
+
+include::{snippets}/UserController/update-user-test/1/http-response.adoc[]
+
+
+== FileController
+=== Upload simple file
+파일 하나를 업로드 합니다.
+
+HTTP request:
+include::{snippets}/FileController/upload-file-test/1/http-request.adoc[]
+
+HTTP response:
+
+include::{snippets}/FileController/upload-file-test/1/http-response.adoc[]
+
+=== Delete file by file-id
+저장된 파일 아이디로 삭제합니다.
+
+파라미터는 URI 경로에 포함합니다.(path variable)
+
+예시) .../{파일 아이디}
+
+HTTP request:
+include::{snippets}/FileController/delete-file-by-id-test/1/http-request.adoc[]
+
+HTTP response:
+
+include::{snippets}/FileController/delete-file-by-id-test/1/http-response.adoc[]
+
+=== Upload multiple files
+여러 개 파일들을 업로드합니다.
+
+HTTP request:
+include::{snippets}/FileController/upload-multiple-files-test/1/http-request.adoc[]
+
+HTTP response:
+
+include::{snippets}/FileController/upload-multiple-files-test/1/http-response.adoc[]
+
+=== Download File by stored name
+저장된 파일명으로 다운로드합니다.
+
+파라미터는 URI 경로에 포함합니다.(path variable)
+
+예시) .../download/{저장된 파일명}
+
+HTTP request:
+include::{snippets}/FileController/download-by-stored-name-test/1/http-request.adoc[]
+
+HTTP response:
+
+include::{snippets}/FileController/download-by-stored-name-test/1/http-response.adoc[]
+
+[[Template]]
+= Template package
+템플릿 API 입니다. 참고하여 주시기 바랍니다.
+
+== 전자결재
+업무로직 관련 연관 데이터 조회로 커스터마이징 바랍니다.
+
+- 결재할 문서 리스트 조회
+- 결재한 문서 리스트 조회
+- 상신한 문서 리스트 조회
+- 결재 진행중 문서 리스트 조회
+- 결재 완료 문서 리스트 조회
+- 반려 문서 리스트 조회
+- 결재 상세
+- 상신취소
+- 결재처리 팝업
+- 결재 상신
+
+=== 결재선 조회
+tree 구조의 부서정보를 가져옵니다.
+
+(부서코드, 상위부서코드)
+
+HTTP request:
+include::{snippets}/ApprovalController/get-appr-dept-tree-list-test/1/http-request.adoc[]
+
+HTTP response:
+
+include::{snippets}/ApprovalController/get-appr-dept-tree-list-test/1/http-response.adoc[]
+
+=== 결재 위임 조회
+HTTP request:
+include::{snippets}/ApprovalController/get-appr-delegating-list-test/1/http-request.adoc[]
+
+.결재 위임 조회 - required datas
+|===
+|key |Description
+
+|compCd
+|회사코드
+
+|adlgId
+|위임자
+
+|actId
+|수임자
+
+|adlgStatCd
+|위임상태 (10:위임, 20:지정해제, 30:기간해제)
+
+|adlgStrDt
+|위임시작일자
+
+|adlgEndDt
+|위임종료일자
+|===
+
+HTTP response:
+
+include::{snippets}/ApprovalController/get-appr-delegating-list-test/1/http-response.adoc[]
+
+=== 결재 위임 저장 및 수정
+요청 필드 중 "adlgSeq" 는 위임 순번으로 신규 저장시 0 또는 NULL 로 세팅합니다.
+
+수정 시에는 조회한 위임의 순번으로 설정하여 넘깁니다.
+
+HTTP request:
+include::{snippets}/ApprovalController/save-delegating-test/1/http-request.adoc[]
+
+.결재 위임 저장 및 수정 - required datas
+|===
+|key |Description
+
+|adlgId
+|위임자
+
+|actId
+|수임자
+
+|adlgStrDt
+|위임시작일자
+
+|adlgEndDt
+|위임종료일자정
+
+|adlgSeq
+|위임 순번
+|===
+
+HTTP response:
+
+include::{snippets}/ApprovalController/save-delegating-test/1/http-response.adoc[]
+
+=== 결재 위임 해제(지정 해제)
+해제하고자 하는 위임 건을 선택하여 위임 해제합니다.
+
+HTTP request:
+include::{snippets}/ApprovalController/cancel-delegating-test/1/http-request.adoc[]
+
+api 호출 시 전달할 파라미터는 위임자, 수임자, 위임 순번입니다.
+
+.결재 위임 저장 및 수정 - required datas
+|===
+|key |Description
+
+|adlgId
+|위임자
+
+|actId
+|수임자
+
+|adlgSeq
+|위임 순번
+|===
+
+HTTP response:
+
+include::{snippets}/ApprovalController/cancel-delegating-test/1/http-response.adoc[]
+
+=== 결재 위임 여부 확인
+위임자와 수임자를 조건으로 현재날짜 기준으로 위임 건이 있는지 확인합니다.
+
+Response 값이 Y 인 경우 위임 건이 존재함을 의미.
+
+HTTP request:
+include::{snippets}/ApprovalController/get-delegating-check-test/1/http-request.adoc[]
+
+HTTP response:
+
+include::{snippets}/ApprovalController/get-delegating-check-test/1/http-response.adoc[]
+
+=== 전결 규정 조회
+문서별 전결 규정을 조회합니다.
+
+HTTP request:
+
+include::{snippets}/ApprovalController/get-appr-rule-list-test/1/http-request.adoc[]
+
+.전결 규정 조회 - required datas
+|===
+|key |Description
+
+|compCd
+|회사코드
+
+|docTypeCd
+|문서 유형 코드 (예: SLIP - 전표 등)
+
+|dtlTypeCd
+|문서의 상세유형
+
+|useYn
+|전결 규정 적용(사용) 유무
+|===
+
+HTTP response:
+
+include::{snippets}/ApprovalController/get-appr-rule-list-test/1/http-response.adoc[]
+
+리턴 값은 배열입니다.
+
+=== 전결 규정 저장 및 수정
+해당 애플리케이션에서 적용할 전결규정에 기준에 대한 정의의 커스텀이 필요합니다.
+
+현재 화면에 구성한 전결 규정을 저장하거나 수정합니다.
+
+POST "/api/appr/rule"
+
+=== 전결 규정 삭제
+해당 애플리케이션에서 적용할 전결규정에 기준에 대한 정의의 커스텀이 필요합니다.
+
+선택한 행의 전결 규정을 삭제합니다.
+
+POST "/api/appr/deleteRules"
+
+=== 전결 결재선 조회
+해당 애플리케이션에서 적용할 전결규정에 기준에 대한 정의의 커스텀이 필요합니다.
+
+조건에 따라 설정한 전결 결재선을 조회합니다.
+
+GET "/api/appr/rule"
+
+== 메뉴 관리
+메뉴 관리 API 입니다.
+
+=== 메뉴 리스트 조회
+메뉴명으로 조회할 수 있습니다.
+
+HTTP request:
+
+include::{snippets}/ProgramMngController/get-menu-list-test/1/http-request.adoc[]
+
+.메뉴 관리 조회 - search field name
+|===
+|key |Description
+
+|menuNm
+|메뉴명
+|===
+
+HTTP response:
+
+include::{snippets}/ProgramMngController/get-menu-list-test/1/http-response.adoc[]
+
+=== 메뉴 저장
+행 추가로 추가한 메뉴 및 기존 메뉴를 수정하여 저장할 수 있습니다.
+
+HTTP request:
+
+include::{snippets}/ProgramMngController/save-menu-list-test/1/http-request.adoc[]
+
+.메뉴 관리 - field names
+|===
+|key |Description
+
+|compCd
+|회사코드
+
+|menuNo
+|메뉴번호
+
+|upperMenuNo
+|상위메뉴번호
+
+|menuNm
+|메뉴명
+
+|programFileNm
+|프로그램 (예: /test)
+
+|menuOrder
+|순번
+
+|relateImageNm
+|관련이미지
+
+|relateImagePath
+|관련이미지경로
+
+|menuDc
+|메뉴설명
+
+|===
+
+HTTP response:
+
+include::{snippets}/ProgramMngController/save-menu-list-test/1/http-response.adoc[]
+
+=== 메뉴 삭제
+선택한 메뉴를 삭제합니다.
+
+HTTP request:
+
+include::{snippets}/ProgramMngController/delete-user-test/1/http-request.adoc[]
+
+.선택 메뉴 삭제 - search field name
+|===
+|key |Description
+
+|compCd
+|회사코드
+
+|menuNo
+|메뉴번호
+|===
+
+HTTP response:
+
+include::{snippets}/ProgramMngController/delete-user-test/1/http-response.adoc[]
+
+== 사용자
+사용자(임직원) 조회 관련 API 입니다.
+
+=== 사용자 조회
+아이디(사번) 또는 이름으로 조회합니다.
+
+HTTP request:
+
+include::{snippets}/EmployeeController/get-employees-test/1/http-request.adoc[]
+
+HTTP response:
+
+include::{snippets}/EmployeeController/get-employees-test/1/http-response.adoc[]
+
+- 검색어 입력시 API
+
+GET "/api/emp/{value}"
+
+.사용자 조회 - search field name
+|===
+|key |Description
+
+|value
+|아이디(사번) 또는 이름 또는 부서명
+
+|===
+
+=== 부서별 사용자 조회
+조직(부서)코드로 소속 사용자들을 조회합니다.
+
+HTTP request:
+
+include::{snippets}/EmployeeController/get-emps-by-dept-test/1/http-request.adoc[]
+
+.부서별 사용자 조회 - search field name
+|===
+|key |Description
+
+|/api/emp/dept/{deptCode}
+|{deptCode} : 부서코드
+
+|===
+
+HTTP response:
+
+include::{snippets}/EmployeeController/get-emps-by-dept-test/1/http-response.adoc[]
+
+=== 사용자 관리
+시스템 관리 하위 메뉴 입니다.
+
+==== 사용자 목록 조회
+
+HTTP request:
+
+include::{snippets}/EmployeeController/get-employee-list-test/1/http-request.adoc[]
+
+.사용자 조회 - search field name
+|===
+|key |Description
+
+|/api/emp/list/{value}
+|{value} : 사용자 이름/아이디
+
+|===
+
+HTTP response:
+
+include::{snippets}/EmployeeController/get-employee-list-test/1/http-response.adoc[]
+
+==== 사용자 상세 조회
+사용자의 loginId 로 상세 조회 합니다.
+
+HTTP request:
+
+include::{snippets}/EmployeeController/get-employee-detail-by-login-id-test/1/http-request.adoc[]
+
+.사용자 상세 조회 - path variable
+|===
+|key |Description
+
+|/api/emp/{loginId}
+|{loginId} : 사용자 아이디
+
+|===
+
+HTTP response:
+
+include::{snippets}/EmployeeController/get-employee-detail-by-login-id-test/1/http-response.adoc[]
+
+==== 사용자 저장(신규/수정)
+사용자의 loginId 와 employeeDto(Json Data)로 사용자를 추가하거나 수정합니다.
+
+HTTP request:
+
+include::{snippets}/EmployeeController/save-new-employee-test/1/http-request.adoc[]
+
+.사용자 저장 - parameters
+|===
+|key |Description
+
+|/api/emp/{loginId}
+|{loginId} : 사용자 아이디
+
+|empNo
+|사용자 아이디
+
+|empNm
+|사용자 이름
+
+|password
+|비밀번
+
+|deptCd
+|부서 코드
+
+|deptNm
+|부서 명
+
+|upperDeptCd
+|상위 부서 코드
+
+|upperDeptNm
+|상위 부서 명
+
+|dutCd
+|직급 코드
+
+|dutNm
+|직급 명
+
+|jobCd
+|직책 코드
+
+|jobNm
+|직책 명
+
+|role
+|권한코드 (예:ADMIN, USER, ...)
+
+|serveCd
+|재직상태 코드
+
+|serveNm
+|재직상태 명
+
+|enableFlag
+|사용유무 (boolean: true or false)
+
+|email
+|이메일
+
+|mobTelNo
+|모바일
+|===
+
+HTTP response:
+
+include::{snippets}/EmployeeController/save-new-employee-test/1/http-response.adoc[]
+
+===== 부서 콤보
+TB_MST_EMP 테이블에서 부서코드/부서명/상위부서코드/상위부서명 값을 정렬하여 제공합니다.
+
+HTTP request:
+
+include::{snippets}/EmployeeController/get-emps-by-dept-test/1/http-request.adoc[]
+
+HTTP response:
+
+include::{snippets}/EmployeeController/get-emps-by-dept-test/1/http-response.adoc[]
+
+==== 사용자 삭제
+사용자의 loginId 로 데이터를 삭제합니다.
+
+HTTP request:
+
+include::{snippets}/EmployeeController/delete-employee-by-login-id-test/1/http-request.adoc[]
+
+.사용자 삭제 - path variable
+|===
+|key |Description
+
+|/api/emp/{value}
+|{loginId} : 사용자 아이디
+
+|===
+
+HTTP response:
+
+include::{snippets}/EmployeeController/delete-employee-by-login-id-test/1/http-response.adoc[]
+
+== 코드관리
+공통코드 관련 API 입니다.
+=== 공통코드 콤보
+그룹코드로 해당 그룹에 대한 상세 코드 리스트를 조회합니다.
+
+HTTP request:
+
+include::{snippets}/CodeController/get-combo-box-test/1/http-request.adoc[]
+
+.코드 콤보 - parameters
+|===
+|key |Description
+
+|groupCd
+|그룹코드
+
+|remark1
+|비고1
+
+|remark2
+|비고2
+
+|remark3
+|비고3
+
+|===
+
+HTTP response:
+
+include::{snippets}/CodeController/get-combo-box-test/1/http-response.adoc[]
+
+=== 상세코드 조회
+그룹코드로 상세코드 정보를 조회합니다.
+
+HTTP request:
+
+include::{snippets}/CodeController/get-code-details-test/1/http-request.adoc[]
+
+.상세코드 정보 - parameters
+|===
+|key |Description
+
+|groupCd
+|그룹코드
+
+|===
+
+HTTP response:
+
+include::{snippets}/CodeController/get-code-details-test/1/http-response.adoc[]
+
+=== 전체 공통코드 조회
+전체 공통코드를 조회합니다. (그룹코드)
+
+HTTP request:
+
+include::{snippets}/CodeController/get-code-all-test/1/http-request.adoc[]
+
+HTTP response:
+
+include::{snippets}/CodeController/get-code-all-test/1/http-response.adoc[]
+
+=== 그룹코드 검색
+조회 조건(그룹코드 또는 그룹코드명과 사용유무)로 그룹코드를 조회합니다.
+
+HTTP request:
+
+include::{snippets}/CodeController/get-group-code-list-test/1/http-request.adoc[]
+
+.그룹코드 조회조건
+|===
+|key |Description
+
+|groupCd
+|그룹코드 또는 그룹코드명
+
+|useYn
+|사용유무
+
+|===
+
+HTTP response:
+
+include::{snippets}/CodeController/get-group-code-list-test/1/http-response.adoc[]
+
+=== 그룹코드의 상세코드 조회
+선택한 그룹코드로 해당 그룹의 상세코드를 조회합니다.
+
+HTTP request:
+
+include::{snippets}/CodeController/get-group-code-detail-list-test/1/http-request.adoc[]
+
+.파라미터
+|===
+|key |Description
+
+|groupCd
+|그룹코드
+
+|===
+
+HTTP response:
+
+include::{snippets}/CodeController/get-group-code-detail-list-test/1/http-response.adoc[]
+
+=== 공통코드관리 - 저장
+그룹코드 리스트와 상세코드(선택된 그룹코드의) 리스트를 저장(수정)합니다.
+
+파라미터는 Json Object이며,
+
+"codeHeader": 리스트, "codeDetail": 리스트 형식의 데이터 입니다.
+
+HTTP request:
+
+include::{snippets}/CodeController/save-code-lists-test/1/http-request.adoc[]
+
+.그룹코드 필드
+|===
+|key |Description
+
+|groupCd
+|그룹코드
+
+|compCd
+|회사코드
+
+|groupNm
+|그룹코드명
+
+|groupDesc
+|그룹코드 설명
+
+|useYn
+|사용유무
+
+|===
+
+.상세코드 필드
+|===
+|key |Description
+
+|groupCd
+|그룹코드
+
+|detailCd
+|상세코드
+
+|compCd
+|회사코드
+
+|detailNm
+|상세코드
+
+|useYn
+|사용유무
+
+|orderSeq
+|상세코드 순번
+
+|detailDesc
+|상세코드 설명
+
+|remark1
+|비고1
+
+|remark2
+|비고2
+
+|remark3
+|비고3
+
+|remark4
+|비고4
+
+|remark5
+|비고5
+
+|===
+
+HTTP response:
+
+include::{snippets}/CodeController/save-code-lists-test/1/http-response.adoc[]
+
+=== 공통코드 삭제
+그룹코드로 해당되는 공통코드를 삭제합니다.
+
+HTTP request:
+
+include::{snippets}/CodeController/delete-code-test/1/http-request.adoc[]
+
+HTTP response:
+
+include::{snippets}/CodeController/delete-code-test/1/http-response.adoc[]
+
+== 권한관리
+관리자가 시스템에 등록된 회사별 권한 조회, 저장(수정) 및 삭제를 할 수 있습니다.
+
+=== 권한관리 조회
+시스템에 등록된 권한을 조회합니다.
+
+HTTP request:
+
+include::{snippets}/AuthorityController/get-authorities-test/1/http-request.adoc[]
+
+.권한관리 조회 - 조회 조건
+|===
+|key |Description
+
+|compCd
+|회사코드
+
+|===
+
+HTTP response:
+
+include::{snippets}/AuthorityController/get-authorities-test/1/http-response.adoc[]
+
+=== 권한관리 저장(수정)
+신규 저장 또는 기존 권한을 수정합니다.
+
+화면의 그리드에 있는 데이터를 수정하거나 저장합니다.
+
+-> 리스트 포맷
+
+HTTP request:
+
+include::{snippets}/AuthorityController/save-authorities-test/1/http-request.adoc[]
+
+.권한관리 저장(수정) - params
+|===
+|key |Description
+
+|compCd
+|회사코드
+
+|roleCd
+|권한코드
+
+|roleNm
+|권한코드명
+
+|roleSelectCd
+|조회권한코드
+
+|roleDc
+|권한 설명
+
+|===
+
+HTTP response:
+
+include::{snippets}/AuthorityController/save-authorities-test/1/http-response.adoc[]
+
+=== 권한관리 삭제
+선택한 권한을 삭제합니다.
+
+파라미터는 선택한 권한의 권한코드와 회사코드입니다.
+
+HTTP request:
+
+include::{snippets}/AuthorityController/delete-authority-test/1/http-request.adoc[]
+
+.권한관리 저장(수정) - params
+|===
+|key |Description
+
+|compCd
+|회사코드
+
+|roleCd
+|권한코드
+
+|===
+헤더에 request Parameter 를 추가합니다.
+
+HTTP response:
+
+include::{snippets}/AuthorityController/delete-authority-test/1/http-response.adoc[]
+
+=== 권한별 메뉴 조회
+권한별 사용 가능한 메뉴를 표시합니다. (구분 -> "roleCk" 1:checked, 0:un checked)
+
+HTTP request:
+
+include::{snippets}/AuthorityController/get-menu-by-authority-test/1/http-request.adoc[]
+
+.권한별 메뉴 조회 - params
+|===
+|key |Description
+
+|compCd
+|회사코드
+
+|roleCd
+|권한코드
+
+|===
+헤더에 request Parameter 를 추가합니다.
+
+HTTP response:
+
+include::{snippets}/AuthorityController/get-menu-by-authority-test/1/http-response.adoc[]
+
+=== 권한별 메뉴 수정
+화면에서 체크한 메뉴를 저장합니다. (기존 내역 삭제후 신규 저장 처리)
+
+리스트로 전달합니다.
+
+HTTP request:
+
+include::{snippets}/AuthorityController/save-menu-by-authority-test/1/http-request.adoc[]
+
+.권한별 메뉴 수정 - params
+|===
+|key |Description
+
+|compCd
+|회사코드
+
+|roleCd
+|권한코드
+
+|menuNo
+|메뉴번호
+
+|===
+헤더에 request Parameter 를 추가합니다.
+
+HTTP response:
+
+include::{snippets}/AuthorityController/save-menu-by-authority-test/1/http-response.adoc[]
+
+=== 권한별 사용자 조회
+권한별 사용자를 조회합니다. (구분 -> "roleChk" 1:checked, 0:un checked)
+
+HTTP request:
+
+include::{snippets}/AuthorityController/get-user-info-by-authority-test/1/http-request.adoc[]
+
+.권한별 메뉴 조회 - params
+|===
+|key |Description
+
+|compCd
+|회사코드
+
+|roleCd
+|권한코드
+
+|===
+헤더에 request Parameter 를 추가합니다.
+
+HTTP response:
+
+include::{snippets}/AuthorityController/get-user-info-by-authority-test/1/http-response.adoc[]
+
+=== 권한별 사용자 수정
+화면에서 체크한 사용자의 권한을 수장합니다.
+
+리스트로 전달합니다.
+
+HTTP request:
+
+include::{snippets}/AuthorityController/save-user-info-by-authority-test/1/http-request.adoc[]
+
+.권한별 메뉴 수정 - params
+|===
+|key |Description
+
+|roleChk
+|권한부여 여부 (1:checked)
+
+|empNo
+|아이디 (임지원 사번)
+
+|===
+헤더에 request Parameter 를 추가합니다.
+
+HTTP response:
+
+include::{snippets}/AuthorityController/save-user-info-by-authority-test/1/http-response.adoc[]

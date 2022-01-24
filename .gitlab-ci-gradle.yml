@@ -1,0 +1,45 @@
+stages:
+  - compile
+  - package
+  - execute
+
+job 1:
+  stage: compile
+  only:
+    - master
+  cache:
+    paths:
+      - build
+  script:
+    - gradlew build
+  tags:
+    - eacct_back_81
+
+    
+job 2:
+  stage: package
+  only:
+    - master
+  cache:
+    paths:
+      - build\libs\*.jar
+  script:
+    - gradlew pathingJar
+    - gradlew bootJar
+  tags:
+    - eacct_back_81
+
+
+job 3:
+  stage: execute
+  only:
+    - master
+  cache:
+    paths:
+      - build
+  script:
+    - copy build\libs\api.jar d:\app\app.jar
+    - copy build\libs\api-pathing.jar d:\app\pathing.jar
+    - call "d:\app\run.bat"
+  tags:
+    - eacct_back_81
